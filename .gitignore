@@ -1,0 +1,6 @@
+# 로컬 미리보기 설정 (사이트에 불필요)
+.claude/
+
+# OS
+Thumbs.db
+.DS_Store
