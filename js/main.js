@@ -305,18 +305,41 @@
     $("#lightboxCaption").textContent = item.caption ? `${galleryTitle} · ${item.caption}` : galleryTitle;
     $("#lightboxNav").hidden = gallery.length < 2;
     $("#lightboxCount").textContent = `${galleryIndex + 1} / ${gallery.length}`;
+    $$("#lightboxThumbs button").forEach((b, n) => {
+      const on = n === galleryIndex;
+      b.classList.toggle("is-active", on);
+      if (on) {
+        b.setAttribute("aria-current", "true");
+        b.scrollIntoView({ block: "nearest", inline: "nearest" });
+      } else b.removeAttribute("aria-current");
+    });
+  }
+  // 하단 썸네일 줄: 장면 수와 현재 위치를 보여주고, 눌러서 바로 이동
+  function renderThumbs() {
+    $("#lightboxThumbs").innerHTML =
+      gallery.length < 2
+        ? ""
+        : gallery
+            .map(
+              (it, n) =>
+                `<button type="button" data-index="${n}" title="${escapeHtml(it.caption || "")}" aria-label="${n + 1}번째 장면${it.caption ? ": " + escapeHtml(it.caption) : ""}"><img src="${escapeHtml(it.src)}" alt="" /></button>`
+            )
+            .join("");
   }
   function openGallery(items, index, title) {
     gallery = items;
     galleryTitle = title;
+    renderThumbs();
     showGalleryItem(index);
     if (!lightbox.open) lightbox.showModal();
   }
   function openLightbox(src, caption) {
     openGallery([{ src }], 0, caption);
   }
-  $("#lightboxPrev").addEventListener("click", () => showGalleryItem(galleryIndex - 1));
-  $("#lightboxNext").addEventListener("click", () => showGalleryItem(galleryIndex + 1));
+  $("#lightboxThumbs").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-index]");
+    if (b) showGalleryItem(Number(b.dataset.index));
+  });
   lightbox.addEventListener("keydown", (e) => {
     if (gallery.length < 2) return;
     if (e.key === "ArrowLeft") showGalleryItem(galleryIndex - 1);

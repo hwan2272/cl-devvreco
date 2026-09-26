@@ -1110,11 +1110,49 @@ svg.fill {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  padding: 10px;
+  gap: 16px;
+  padding: 10px 16px;
   border-top: 1px solid var(--border);
+}
+.lightbox-thumbs {
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+  overflow-x: auto;
+  padding: 3px;
+}
+.lightbox-thumbs button {
+  flex-shrink: 0;
+  width: 96px;
+  height: 56px;
+  padding: 0;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface-2);
+  opacity: 0.55;
+  cursor: pointer;
+  transition: opacity 0.15s, border-color 0.15s;
+}
+.lightbox-thumbs button:hover {
+  opacity: 1;
+}
+.lightbox-thumbs button.is-active {
+  opacity: 1;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+.lightbox-thumbs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+.lightbox-count {
+  flex-shrink: 0;
   font-size: 14px;
-  color: var(--text-3);
+  font-weight: 600;
+  color: var(--text-2);
   font-variant-numeric: tabular-nums;
 }
 @media (max-width: 639px) {
@@ -1122,6 +1160,10 @@ svg.fill {
     width: 100%;
     height: 100%;
     border-radius: 0;
+  }
+  .lightbox-thumbs button {
+    width: 72px;
+    height: 44px;
   }
 }
 
