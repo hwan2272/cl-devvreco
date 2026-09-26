@@ -38,6 +38,7 @@
     link: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
     copy: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg>',
     play: '<svg viewBox="0 0 24 24" aria-hidden="true" class="fill"><path d="M7 4.5v15l13-7.5z"/></svg>',
+    chat: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>',
     chevron: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>',
   };
 
@@ -118,6 +119,7 @@
           <span class="tag tag-${kind}">${escapeHtml(p.type)}</span>
           <time>${escapeHtml(p.period)}</time>
           ${p.demo ? `<button class="demo-btn" type="button">${ICONS.play} 시연 영상</button>` : ""}
+          ${p.chats ? `<button class="demo-btn chat-btn" type="button">${ICONS.chat} 작업 대화</button>` : ""}
         </div>
         <h3 class="project-title">${escapeHtml(p.title)}</h3>
         ${lead ? `<p class="project-stack">${richText(lead)}</p>` : ""}
@@ -160,8 +162,11 @@
       else openLightbox(p.img, p.title);
     });
 
-    const demoBtn = $(".demo-btn", el);
+    const demoBtn = $(".demo-btn:not(.chat-btn)", el);
     if (demoBtn) demoBtn.addEventListener("click", () => openDemo(p));
+
+    const chatBtn = $(".chat-btn", el);
+    if (chatBtn) chatBtn.addEventListener("click", () => openGallery(p.chats, 0, "작업 대화"));
 
     const moreBtn = $(".more-btn", el);
     if (moreBtn) moreBtn.addEventListener("click", () => setExpanded(el, moreBtn.getAttribute("aria-expanded") !== "true"));
@@ -287,13 +292,36 @@
   });
 
   /* ---------- Lightbox ---------- */
+  // 이미지 한 장 또는 여러 장(갤러리). 여러 장이면 ← → 버튼/키로 넘긴다.
   const lightbox = $("#lightbox");
-  function openLightbox(src, caption) {
-    $("#lightboxImg").src = src;
-    $("#lightboxImg").alt = caption;
-    $("#lightboxCaption").textContent = caption;
-    lightbox.showModal();
+  let gallery = [];
+  let galleryIndex = 0;
+  let galleryTitle = "";
+  function showGalleryItem(i) {
+    galleryIndex = (i + gallery.length) % gallery.length;
+    const item = gallery[galleryIndex];
+    $("#lightboxImg").src = item.src;
+    $("#lightboxImg").alt = item.caption || galleryTitle;
+    $("#lightboxCaption").textContent = item.caption ? `${galleryTitle} · ${item.caption}` : galleryTitle;
+    $("#lightboxNav").hidden = gallery.length < 2;
+    $("#lightboxCount").textContent = `${galleryIndex + 1} / ${gallery.length}`;
   }
+  function openGallery(items, index, title) {
+    gallery = items;
+    galleryTitle = title;
+    showGalleryItem(index);
+    if (!lightbox.open) lightbox.showModal();
+  }
+  function openLightbox(src, caption) {
+    openGallery([{ src }], 0, caption);
+  }
+  $("#lightboxPrev").addEventListener("click", () => showGalleryItem(galleryIndex - 1));
+  $("#lightboxNext").addEventListener("click", () => showGalleryItem(galleryIndex + 1));
+  lightbox.addEventListener("keydown", (e) => {
+    if (gallery.length < 2) return;
+    if (e.key === "ArrowLeft") showGalleryItem(galleryIndex - 1);
+    if (e.key === "ArrowRight") showGalleryItem(galleryIndex + 1);
+  });
   $("#lightboxClose").addEventListener("click", () => lightbox.close());
   lightbox.addEventListener("click", (e) => {
     if (e.target === lightbox) lightbox.close();

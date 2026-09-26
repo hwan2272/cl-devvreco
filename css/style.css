@@ -823,6 +823,12 @@ svg.fill {
   font-weight: 700;
   cursor: pointer;
 }
+.chat-btn {
+  background: var(--work);
+}
+.demo-btn.chat-btn:hover {
+  background: color-mix(in srgb, var(--work) 85%, #000);
+}
 .demo-btn:hover {
   background: var(--accent-hover);
 }
@@ -1062,8 +1068,27 @@ svg.fill {
   border-radius: 8px;
 }
 .lightbox p {
-  margin: 12px 40px 0 0;
+  margin: 0;
   font-weight: 600;
+}
+.lightbox-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding-right: 48px;
+}
+.lightbox-foot p {
+  flex: 1;
+  margin: 0;
+}
+.lightbox-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
 }
 .lightbox-close {
   position: absolute;

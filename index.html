@@ -137,7 +137,18 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
     </button>
     <img id="lightboxImg" alt="" />
-    <p id="lightboxCaption"></p>
+    <div class="lightbox-foot">
+      <p id="lightboxCaption"></p>
+      <div class="lightbox-nav" id="lightboxNav">
+        <button class="icon-btn" id="lightboxPrev" type="button" aria-label="이전 이미지">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>
+        </button>
+        <span id="lightboxCount"></span>
+        <button class="icon-btn" id="lightboxNext" type="button" aria-label="다음 이미지">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
   </dialog>
 
   <dialog class="frame-modal" id="frameModal" aria-labelledby="frameTitle">
