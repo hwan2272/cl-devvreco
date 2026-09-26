@@ -653,6 +653,12 @@ svg.fill {
     top: calc(var(--header-h) + 24px);
     max-height: calc(100vh - var(--header-h) - 48px);
     overflow-y: auto;
+    transition: opacity 0.2s, visibility 0.2s;
+  }
+  /* Projects 영역 끝에서 목차가 위로 밀려 올라가기 시작하면 숨김 (카드 펼침 시 목차가 튀는 현상 방지) */
+  .project-index.is-released {
+    opacity: 0;
+    visibility: hidden;
   }
 }
 .project-index-title {
