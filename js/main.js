@@ -425,4 +425,17 @@
     { rootMargin: "-30% 0px -60% 0px" }
   );
   projectEls.forEach(({ el }) => projectObserver.observe(el));
+
+  // 목차는 Projects 영역 안에서만 sticky 라서, 영역 끝에 다다르면 위로 밀려 올라가며
+  // 카드를 펼치거나 접을 때마다 같이 움직인다. 밀려나기 시작하는 시점부터는 숨긴다.
+  const projectIndex = $(".project-index");
+  const projectsLayout = $(".projects-layout");
+  const updateIndexVisibility = () => {
+    const stickyTop = parseFloat(getComputedStyle(projectIndex).top) || 0;
+    const released = projectsLayout.getBoundingClientRect().bottom < stickyTop + projectIndex.offsetHeight;
+    projectIndex.classList.toggle("is-released", released);
+  };
+  addEventListener("scroll", updateIndexVisibility, { passive: true });
+  new ResizeObserver(updateIndexVisibility).observe(projectsLayout);
+  updateIndexVisibility();
 })();
