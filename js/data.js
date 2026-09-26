@@ -163,7 +163,7 @@ window.PORTFOLIO = {
       period: "2026.09 ~ ING",
       type: "개인 프로젝트 [with Claude Code]",
       img: "assets/projects/cl-devvreco.png",
-      chats: [{ src: "assets/projects/cl-devvreco-chat-1.webp", caption: "제각각이던 사이트 내 링크들의 정책을 Claude Code와 정리하는 장면" }],
+      chats: [{ src: "assets/projects/cl-devvreco-chat-1.webp", caption: "제각각이던 링크 정책 정리" }],
       items: [
         { t: "HTML5 + CSS3 + Vanilla JavaScript (빌드 과정 없는 정적 사이트)" },
         { t: "Claude Code와 함께 기존 사이트(Devvreco v.2) 분석부터 구현, 브라우저 검증까지 진행한 프로젝트" },
@@ -183,7 +183,12 @@ window.PORTFOLIO = {
       img: "assets/projects/character-style-converter-poster.png",
       imgPosition: "right center",
       demo: "assets/projects/character-style-converter-demo.gif",
-      chats: [{ src: "assets/projects/character-style-converter-chat-1.webp", caption: "스펙 문서(md)를 기준으로 Claude Code와 프로젝트 초기 구조를 잡는 장면" }],
+      chats: [
+        { src: "assets/projects/character-style-converter-chat-1.webp", caption: "스펙 문서 기반 초기 구조 설계" },
+        { src: "assets/projects/character-style-converter-chat-2.webp", caption: "AI 제안 대신 제3의 개선안 제시" },
+        { src: "assets/projects/character-style-converter-chat-3.webp", caption: "사용자 관점의 UX 문제 지적과 개선" },
+        { src: "assets/projects/character-style-converter-chat-4.webp", caption: "설계 스펙 변경사항 점검 리마인드" },
+      ],
       items: [
         { t: "Electron + Python 3.10 + Claude API (Vision) + Stable Diffusion WebUI API" },
         { t: "Claude Code와 함께 스펙 문서(docs/spec.md) 작성부터 설계, 개발까지 진행한 프로젝트" },
