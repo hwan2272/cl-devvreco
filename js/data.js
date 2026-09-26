@@ -163,7 +163,12 @@ window.PORTFOLIO = {
       period: "2026.09 ~ ING",
       type: "개인 프로젝트 [with Claude Code]",
       img: "assets/projects/cl-devvreco.png",
-      chats: [{ src: "assets/projects/cl-devvreco-chat-1.webp", caption: "제각각이던 링크 정책 정리" }],
+      chats: [
+        { src: "assets/projects/cl-devvreco-chat-1.webp", caption: "제각각이던 링크 정책 정리" },
+        { src: "assets/projects/cl-devvreco-chat-2.webp", caption: "사용자 관점의 UX 적용 방향 논의" },
+        { src: "assets/projects/cl-devvreco-chat-3.webp", caption: "GitHub·Vercel 배포와 PR 정책 결정" },
+        { src: "assets/projects/cl-devvreco-chat-4.webp", caption: "유다시티 커밋 컨벤션 적용 논의" },
+      ],
       items: [
         { t: "HTML5 + CSS3 + Vanilla JavaScript (빌드 과정 없는 정적 사이트)" },
         { t: "Claude Code와 함께 기존 사이트(Devvreco v.2) 분석부터 구현, 브라우저 검증까지 진행한 프로젝트" },
