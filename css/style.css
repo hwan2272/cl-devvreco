@@ -767,6 +767,10 @@ svg.fill {
   width: 12px;
   height: 12px;
 }
+.thumb-empty {
+  border-style: dashed;
+  cursor: default;
+}
 .thumb-fallback {
   display: none;
 }

@@ -182,6 +182,41 @@ window.PORTFOLIO = {
       ],
     },
     {
+      id: "video-tools",
+      title: "영상 자막작업 편의성 도구 기획 및 STT(Speech to Text) 기술 학습",
+      period: "2026.09 ~ ING",
+      type: "개인 프로젝트 [with Claude Code]",
+      img: "assets/projects/video-tools.webp",
+      items: [
+        { t: "Python 3.10 + faster-whisper large-v3 + wav2vec2 / Premiere Pro UXP (JavaScript)" },
+        { t: "Claude Code와 함께 기획서·요청서 작성부터 설계, 개발까지 진행한 프로젝트" },
+        { t: "영상 편집 시 반복되는 자막 작업을 줄이기 위한 도구 2종 (자막 생성 → 자막 길이 정리)" },
+        {
+          t: "영상 → SRT 변환 프로그램 (로컬 전용)",
+          c: [
+            { t: "faster-whisper large-v3 기반 음성 인식, 외부 API 없이 오프라인으로만 처리" },
+            { t: "한 줄 20자 · 2초 상한 자막 규칙 엔진: 내부 로직 검토/학습 중" },
+            { t: "SRT 파일 추출 후 정렬 모델 실행 (wav2vec2)으로 자막 싱크 보정" },
+            { t: "내 편집 스타일 학습: 내부 로직 검토/학습 중" },
+            { t: "GUI 기능 지속 개선 중" },
+          ],
+        },
+        {
+          t: "Premiere Pro 자막 길이 맞추기 플러그인 (UXP 패널)",
+          c: [
+            { t: "타임라인에서 선택한 자막 그래픽 클립만 지정한 길이(기본 2초)로 일괄 조정" },
+            { t: "시작점은 유지하고 다음 클립과 겹치지 않는 \"빈틈 허용, 겹침 금지\" 규칙 적용" },
+            { t: "문단 앞 커서 이동: 캡션 사이 빈틈을 문단 구분으로 보고 현재 문단 맨 앞으로 이동 (누를 때마다 한 문단씩 앞으로)" },
+          ],
+        },
+        {
+          t: "Claude Code 세션 간 협업",
+          c: [{ t: "두 세션이 메시지를 주고받으며 자막 추출 오류를 함께 수정 (유효 자막 1,665개 → 2,068개)" }],
+        },
+      ],
+      links: [{ label: "Web Link (로컬 데스크탑 도구여서 링크 불가)", href: null }],
+    },
+    {
       title: "Character Style Converter : 캐릭터 스타일 변환기",
       period: "2026.09 ~ ING",
       type: "개인 프로젝트 [with Claude Code]",
