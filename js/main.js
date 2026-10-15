@@ -108,12 +108,17 @@
     el.dataset.kind = kind;
     el.dataset.search = (p.title + " " + p.period + " " + p.type + " " + JSON.stringify(p.items).replace(/<[^>]+>/g, "")).toLowerCase();
 
-    el.innerHTML = `
-      <button class="thumb" type="button" aria-label="${escapeHtml(p.title)} ${imageDemo ? "시연 영상 보기" : "이미지 크게 보기"}">
+    // img 가 없으면 빈 썸네일 자리만 둔다 (클릭 불가)
+    const thumbHtml = p.img
+      ? `<button class="thumb" type="button" aria-label="${escapeHtml(p.title)} ${imageDemo ? "시연 영상 보기" : "이미지 크게 보기"}">
         <img src="${escapeHtml(p.img)}" alt="${escapeHtml(p.title)}" loading="lazy"${p.imgPosition ? ` style="object-position:${escapeHtml(p.imgPosition)}"` : ""} />
         ${imageDemo ? `<span class="demo-badge" aria-hidden="true">${ICONS.play} DEMO</span>` : ""}
         <span class="thumb-fallback" aria-hidden="true">${escapeHtml(p.title.split(/[\s:]/)[0])}</span>
-      </button>
+      </button>`
+      : `<div class="thumb thumb-empty" aria-hidden="true"></div>`;
+
+    el.innerHTML = `
+      ${thumbHtml}
       <div class="project-body">
         <div class="project-meta">
           <span class="tag tag-${kind}">${escapeHtml(p.type)}</span>
@@ -148,10 +153,10 @@
       </div>`;
 
     // 이미지 로드 실패(예: Google Drive 공유 링크) 시 대체 썸네일
-    const img = $("img", el);
-    img.addEventListener("error", () => el.querySelector(".thumb").classList.add("no-img"));
+    const img = $(".thumb img", el);
+    if (img) img.addEventListener("error", () => el.querySelector(".thumb").classList.add("no-img"));
 
-    $(".thumb", el).addEventListener("click", () => {
+    if (p.img) $(".thumb", el).addEventListener("click", () => {
       if ($(".thumb", el).classList.contains("no-img")) {
         const src = toEmbedUrl(p.img);
         if (src) openFrame(src, p.img, p.title);
