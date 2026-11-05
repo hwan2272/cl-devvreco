@@ -64,6 +64,34 @@
   $("#statKosa").textContent = projects.filter((p) => p.type.includes("[KOSA 인증]")).length;
   $("#statYears").textContent = profile.careerStart;
 
+  // 약식 인쇄 모드: Profile + Projects 만
+  const printMode = new URLSearchParams(location.search).get("print");
+  if (printMode === "brief") document.documentElement.classList.add("print-brief");
+
+  // 인쇄(PDF)용: 맨 위 사이트 주소(유일하게 누를 수 있는 링크) + 연락처 한 줄
+  const noScheme = (u) => u.replace(/^https?:\/\//, "");
+  const siteLink = `<a href="${escapeHtml(profile.siteUrl)}">${escapeHtml(profile.siteUrl)}</a>`;
+  $("#printSite").innerHTML =
+    printMode === "brief"
+      ? `본 PDF는 약식입니다. 시연 영상 등 전체 내용은 포트폴리오 사이트 ${siteLink} 에서 확인하실 수 있습니다.`
+      : `포트폴리오 사이트 ${siteLink}`;
+  $("#printContacts").textContent = contacts.map((c) => noScheme(c.value)).join("  ·  ");
+
+  // 인쇄할 때는 사이트 주소를 뺀 모든 링크를 끊어 PDF에서 눌리지 않게 하고, 인쇄가 끝나면 되돌린다
+  const printLinks = () => $$("a[href]").filter((a) => !a.closest("#printSite"));
+  const disableLinks = () =>
+    printLinks().forEach((a) => {
+      a.dataset.printHref = a.getAttribute("href");
+      a.removeAttribute("href");
+    });
+  const restoreLinks = () =>
+    $$("a[data-print-href]").forEach((a) => {
+      a.setAttribute("href", a.dataset.printHref);
+      delete a.dataset.printHref;
+    });
+  addEventListener("beforeprint", disableLinks);
+  addEventListener("afterprint", restoreLinks);
+
   $("#heroLinks").innerHTML = contacts
     .map(
       (c) =>
@@ -270,6 +298,9 @@
   });
 
   applyFilter();
+
+  // 인쇄용으로 열었을 때는 아래쪽 썸네일도 미리 불러온다 (지연 로딩 해제)
+  if (printMode) $$("img[loading=lazy]").forEach((i) => (i.loading = "eager"));
 
   /* ---------- Contacts ---------- */
   $("#contactsGrid").innerHTML = contacts
@@ -494,4 +525,7 @@
   addEventListener("scroll", updateIndexVisibility, { passive: true });
   new ResizeObserver(updateIndexVisibility).observe(projectsLayout);
   updateIndexVisibility();
+
+  // 인쇄 모드로 열면 처음부터 링크를 끊어 둔다 (PDF 자동 생성 시 beforeprint 가 오지 않을 수 있음)
+  if (printMode) disableLinks();
 })();

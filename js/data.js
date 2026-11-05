@@ -10,6 +10,7 @@ window.PORTFOLIO = {
     site: "hwan2272 Devvreco",
     siteSub: "Dev Records",
     careerStart: 2012,
+    siteUrl: "https://hwan2272-cl-devvreco.vercel.app",
     // 프로필 버튼 아래 버전 안내 (v.2 ↔ v.3 연결)
     versionNote: {
       text: '이 사이트는 직접 구현한 <a href="#devvreco-v2">Devvreco v.2</a> (Next.js + TypeScript + Tailwind CSS)를 Claude Code와 함께 리뉴얼한 v.3입니다.',
