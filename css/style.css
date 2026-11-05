@@ -121,6 +121,9 @@ svg.fill {
 [hidden] {
   display: none !important;
 }
+.print-only {
+  display: none;
+}
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -1217,5 +1220,195 @@ svg.fill {
     width: 100%;
     height: 100%;
     border-radius: 0;
+  }
+}
+
+/* ============ Print (PDF) ============
+ * 화면에는 영향 없음. Ctrl+P / PDF 저장 시에만 적용.
+ * 기본: 전체 섹션. 약식 모드: Profile + Projects 만. 프로젝트 카드는 둘 다 모두 펼친 상태.
+ */
+@page {
+  size: A4;
+  margin: 14mm 12mm;
+}
+@media print {
+  /* 다크 모드로 보고 있어도 항상 밝게 (id 선택자로 테마 규칙보다 우선) */
+  :root:not(#print-light),
+  :root:not(#print-light)[data-theme] {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --surface-2: #f4f5f8;
+    --border: #d9dce4;
+    --text: #111318;
+    --text-2: #3b4150;
+    --text-3: #6b7285;
+    --accent: #3f3ab8;
+    --accent-soft: #eef0ff;
+    --work: #0f766e;
+    --work-soft: #e6f6f4;
+    --personal: #9a4a06;
+    --personal-soft: #fdf3e4;
+    --shadow: none;
+    --shadow-lg: none;
+    color-scheme: light;
+  }
+  body {
+    font-size: 10.5pt;
+    line-height: 1.55;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .print-only {
+    display: block;
+  }
+
+  /* 화면용 요소 숨김 */
+  .skip-link,
+  .site-header,
+  .hero-cta,
+  .version-note,
+  .hero-card-links,
+  .toolbar,
+  .result-count,
+  .project-index,
+  .more-btn,
+  .demo-btn,
+  .demo-badge,
+  .to-top,
+  .toast,
+  .lightbox,
+  .frame-modal,
+  .project-links .btn-disabled,
+  .project-links a[href^="#"] {
+    display: none !important;
+  }
+
+  .section {
+    padding: 18px 0;
+  }
+  .container {
+    max-width: none;
+    padding: 0;
+  }
+  .section-head {
+    margin-bottom: 12px;
+  }
+  .section-head h2 {
+    font-size: 16pt;
+  }
+
+  /* Profile */
+  .hero {
+    padding-top: 0;
+  }
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr) 210px;
+    gap: 20px;
+  }
+  .hero-name {
+    font-size: 24pt;
+  }
+  .hero-role {
+    margin: 2px 0 6px;
+    font-size: 12pt;
+  }
+  .print-contacts {
+    margin: 0 0 12px;
+    font-size: 9.5pt;
+    color: var(--text-2);
+  }
+  .about-list {
+    gap: 4px;
+    margin-bottom: 0;
+  }
+  .hero-card {
+    position: static;
+    align-self: start;
+  }
+  .stat {
+    padding: 10px 12px;
+  }
+  .stat-label {
+    white-space: nowrap;
+  }
+  .stat-num {
+    font-size: 16pt;
+  }
+
+  /* Skills (전체 인쇄 시) */
+  .skills-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .skill-card {
+    padding: 12px 14px;
+    break-inside: avoid;
+  }
+
+  /* Projects: 필터와 관계없이 전부, 썸네일은 작게 */
+  .projects-layout {
+    display: block;
+  }
+  .project-card[hidden] {
+    display: grid !important;
+  }
+  .project-list {
+    gap: 10px;
+  }
+  .project-card {
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 14px;
+    padding: 14px;
+    break-inside: avoid;
+  }
+  .thumb {
+    aspect-ratio: 1;
+  }
+  .project-title {
+    font-size: 12.5pt;
+  }
+  .project-stack {
+    margin: 2px 0 6px;
+    font-size: 9.5pt;
+  }
+  .items,
+  .sub {
+    font-size: 9.5pt;
+  }
+
+  /* PDF 에서는 링크를 쓰지 않음: 링크 버튼 줄은 숨기고, 글 속 링크는 일반 글자처럼 */
+  .project-links {
+    display: none !important;
+  }
+  a:not([href]) {
+    color: inherit;
+    text-decoration: none;
+  }
+  .print-site {
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    font-size: 9.5pt;
+    color: var(--text-2);
+  }
+  .print-site a {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* 프로젝트 카드는 접힌 내용까지 모두 펼쳐서 인쇄 */
+  .project-details.is-collapsed .items > li {
+    display: list-item !important;
+  }
+  .project-details.is-collapsed .sub {
+    display: block !important;
+  }
+
+  /* 약식: Skills, Contacts 제외 */
+  html.print-brief #skills,
+  html.print-brief #contacts {
+    display: none !important;
   }
 }
